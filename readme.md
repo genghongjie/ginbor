@@ -1,4 +1,3 @@
-
 ## ginbro工具安装
 您可以通过如下的方式安装 ginbro 工具：
 ```shell
