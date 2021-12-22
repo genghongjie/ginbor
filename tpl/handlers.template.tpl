@@ -4,7 +4,7 @@ import (
 	"{{.OutPackage}}/models"
 	"github.com/gin-gonic/gin"
 	"{{.OutPackage}}/service"
-	"{{.OutPackage}}/entity/constants"
+	"{{.OutPackage}}/pkg/constants"
 )
 
 //group{{.ModelName}}ApiV1  := r.Group("/api/v1")
@@ -34,11 +34,11 @@ import (
 func {{.ModelName}}All(c *gin.Context) {
 	query := &models.PaginationQuery{}
 	err := c.ShouldBindQuery(query)
-	if handleRequestError(c, err, constants.CodeParamsError) {
+	if handleParamError(c, err, constants.CodeParamsError) {
         return
     }
 	pagination, err := service.New{{.ModelName}}Service().All(query)
-	if handleError(http.StatusInternalServerError, c, err, constants.CodeServerError) {
+	if handleError(c, http.StatusInternalServerError, err, constants.CodeServerError) {
         return
     }
 	jsonPagination(c, pagination)
@@ -56,11 +56,11 @@ func {{.ModelName}}All(c *gin.Context) {
 // @Router /api/v1/{{.ResourceName}}s/{id} [get]
 func {{.ModelName}}One(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
-    if handleRequestError(c, err) {
+    if handleParamError(c, err) {
         return
     }
     data, err := service.New{{.ModelName}}Service().One(id)
-	if handleError(http.StatusNotFound, c, err) {
+	if handleError(c, http.StatusNotFound, err) {
 		return
 	}
 	jsonObject(c, data)
@@ -79,14 +79,14 @@ func {{.ModelName}}One(c *gin.Context) {
 func {{.ModelName}}Create(c *gin.Context) {
 	var mdlInput models.{{.ModelName}}CreateInput
 	err := c.ShouldBind(&mdlInput)
-	if handleRequestError(c, err, constants.CodeParamsError) {
+	if handleParamError(c, err, constants.CodeParamsError) {
 		return
 	}
 	//TODO Parameter Validation
 	mdl := models.{{.ModelName}}{}
 	//TODO Parameter Receive
 	err = service.New{{.ModelName}}Service().Create(&mdl)
-	if handleError(http.StatusInternalServerError, c, err, constants.CodeServerError) {
+	if handleError(c, http.StatusInternalServerError, err, constants.CodeServerError) {
 		return
 	}
 	jsonObject(c, mdl)
@@ -105,7 +105,7 @@ func {{.ModelName}}Create(c *gin.Context) {
 func {{.ModelName}}Update(c *gin.Context) {
 	var mdlInput models.{{.ModelName}}UpdateInput
 	err := c.ShouldBind(&mdlInput)
-	if handleRequestError(c, err, constants.CodeParamsError) {
+	if handleParamError(c, err, constants.CodeParamsError) {
 		return
 	}
 	//TODO Parameter Validation
@@ -117,7 +117,7 @@ func {{.ModelName}}Update(c *gin.Context) {
     mdl.Id = mdlInput.Id
 	//TODO Parameter Receive
 	err = service.New{{.ModelName}}Service().Update(mdl)
-	if handleError(http.StatusInternalServerError, c, err, constants.CodeServerError) {
+	if handleError(c, http.StatusInternalServerError, err, constants.CodeServerError) {
 		return
 	}
 	jsonSuccess(c)
@@ -137,11 +137,11 @@ func {{.ModelName}}Delete(c *gin.Context) {
 	var mdl models.{{.ModelName}}
 	var err error
 	mdl.Id, err = strconv.Atoi(c.Param("id"))
-    if handleRequestError(c, err) {
+    if handleParamError(c, err) {
         return
     }
 	err = service.New{{.ModelName}}Service().Delete(mdl)
-	if handleError(http.StatusInternalServerError, c, err, constants.CodeServerError) {
+	if handleError(c, http.StatusInternalServerError, err, constants.CodeServerError) {
 		return
 	}
 	jsonSuccess(c)
@@ -162,7 +162,7 @@ func {{.ModelName}}Delete(c *gin.Context) {
 func {{.ModelName}}BatchDelete(c *gin.Context) {
     var mdlInputs models.{{.ModelName}}DeleteInputs
 	err := c.ShouldBind(&mdlInputs)
-	if handleRequestError(c, err, constants.CodeParamsError) {
+	if handleParamError(c, err, constants.CodeParamsError) {
 		return
 	}
 	if len(mdlInputs.List) == 0 {
@@ -170,7 +170,7 @@ func {{.ModelName}}BatchDelete(c *gin.Context) {
 		return
 	}
 	err = service.New{{.ModelName}}Service().BatchDelete(mdlInputs)
-	if handleError(http.StatusInternalServerError, c, err, constants.CodeServerError) {
+	if handleError(c, http.StatusInternalServerError, err, constants.CodeServerError) {
 		return
 	}
 	jsonSuccess(c)

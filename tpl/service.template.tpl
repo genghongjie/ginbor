@@ -2,11 +2,23 @@ package service
 
 import (
 	"{{.OutPackage}}/models"
-	"{{.OutPackage}}/misc/util"
+	"{{.OutPackage}}/pkg/misc/util"
 )
 
-type {{.ModelName}}Service struct {
+var out{{.ModelName}}Service *{{.ModelName}}Service
+
+//保证只执行一次
+var out{{.ModelName}}ServiceOnce sync.Once
+
+func New{{.ModelName}}Service() *{{.ModelName}}Service {
+	//保证只执行一次
+	out{{.ModelName}}ServiceOnce.Do(func() {
+		out{{.ModelName}}Service = &{{.ModelName}}Service{}
+	})
+	return out{{.ModelName}}LogService
 }
+
+
 
 func New{{.ModelName}}Service() *{{.ModelName}}Service {
 	return &{{.ModelName}}Service{}
