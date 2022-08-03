@@ -110,7 +110,7 @@ func {{.ModelName}}Update(c *gin.Context) {
 	}
 	//TODO Parameter Validation
 	if mdlInput.Id == 0 {
-        handleRequestError(c, err, constants.CodeParamsError)
+        handleParamError(c, err, constants.CodeParamsError)
         return
     }
 	mdl := models.{{.ModelName}}{}
@@ -166,7 +166,7 @@ func {{.ModelName}}BatchDelete(c *gin.Context) {
 		return
 	}
 	if len(mdlInputs.List) == 0 {
-		handleRequestError(c, err, constants.CodeParamsError)
+		handleParamError(c, err, constants.CodeParamsError)
 		return
 	}
 	err = service.New{{.ModelName}}Service().BatchDelete(mdlInputs)

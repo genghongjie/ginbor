@@ -4,6 +4,11 @@ import (
 	"{{.OutPackage}}/models"
 	"{{.OutPackage}}/pkg/misc/util"
 )
+type {{.ModelName}}Service struct {
+}
+
+
+var out{{.ModelName}}Service *{{.ModelName}}Service
 
 var out{{.ModelName}}Service *{{.ModelName}}Service
 
@@ -15,7 +20,7 @@ func New{{.ModelName}}Service() *{{.ModelName}}Service {
 	out{{.ModelName}}ServiceOnce.Do(func() {
 		out{{.ModelName}}Service = &{{.ModelName}}Service{}
 	})
-	return out{{.ModelName}}LogService
+	return out{{.ModelName}}Service
 }
 
 
