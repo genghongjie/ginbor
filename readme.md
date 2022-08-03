@@ -7,7 +7,13 @@ go get -u github.com/genghongjie/ginbro
 ```
 
 ## 使用 本地示例
-`ginbro gen -u root -p A123456z -c utf8 -a 192.168.32.164:3306 --authTable=users --authPassword=password --outPackage=thinry.com/asset-admin_code -d=asset`
+
+`
+ginbro gen -u root -p A123456z -c utf8 -a 192.168.32.164:3306 --authTable=users --authPassword=password --outPackage=thinry.com/showcase_code -d=showcase
+`
+
+`
+ginbro gen -u root -p A123456z -c utf8 -a 192.168.32.164:3306 --authTable=users --authPassword=password --outPackage=thinry.com/asset-admin_code -d=asset`
 
 `ginbro gen -u root -p A123456z -c utf8 -a 192.168.32.203:3306 --authTable=users --authPassword=password --outPackage=thinry.com/oss_demo_code -d=jit`
 
